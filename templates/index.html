@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NekoMonitor Lite</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='theme.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <span class="brand-icon">🐾</span>
+
+            <div>
+                <h2>NekoMonitor Lite</h2>
+                <p>Version 0.1.0</p>
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <button class="nav-button active">
+                <span>⌂</span>
+                Dashboard
+            </button>
+
+            <button class="nav-button">
+                <span>▣</span>
+                Hardware
+            </button>
+
+            <button class="nav-button">
+                <span>◉</span>
+                Network
+            </button>
+
+            <button class="nav-button">
+                <span>▤</span>
+                Storage
+            </button>
+
+            <button class="nav-button">
+                <span>⚙</span>
+                Settings
+            </button>
+        </nav>
+
+        <div class="computer-card">
+            <p class="small-title">MY COMPUTER</p>
+
+            <div class="computer-row">
+                <span>Status</span>
+                <strong id="computer-status">Online</strong>
+            </div>
+
+            <div class="computer-row">
+                <span>CPU</span>
+                <strong id="sidebar-cpu">--%</strong>
+            </div>
+
+            <div class="computer-row">
+                <span>RAM</span>
+                <strong id="sidebar-ram">--%</strong>
+            </div>
+        </div>
+
+        <div class="nekorin-mode">
+            <span>🐱 Nekorin Mode</span>
+
+            <button
+                id="nekorin-toggle"
+                class="toggle active"
+                aria-label="Toggle Nekorin mode"
+            >
+                <span></span>
+            </button>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="top-bar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Overview of your computer</p>
+            </div>
+
+            <div class="top-information">
+
+                <div class="mini-card">
+                    <span>Time</span>
+                    <strong id="current-time">--:--</strong>
+                </div>
+
+                <div class="mini-card">
+                    <span>Date</span>
+                    <strong id="current-date">--</strong>
+                </div>
+
+                <div class="mini-card status-card">
+                    <span>Nekorin Status</span>
+                    <strong id="nekorin-status">Happy</strong>
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="dashboard">
+
+            <div class="metrics-area">
+
+                <div class="main-cards">
+
+                    <article class="metric-card purple-card">
+
+                        <div class="card-title">
+                            <span>▣</span>
+                            <h3>CPU</h3>
+                        </div>
+
+                        <div
+                            id="cpu-gauge"
+                            class="gauge"
+                            style="--value: 0;"
+                        >
+                            <div class="gauge-center">
+                                <strong id="cpu-value">--%</strong>
+                                <span>Usage</span>
+                            </div>
+                        </div>
+
+                        <div class="chart" id="cpu-chart"></div>
+
+                    </article>
+
+                    <article class="metric-card pink-card">
+
+                        <div class="card-title">
+                            <span>▣</span>
+                            <h3>GPU</h3>
+                        </div>
+
+                        <div
+                            id="gpu-gauge"
+                            class="gauge"
+                            style="--value: 0;"
+                        >
+                            <div class="gauge-center">
+                                <strong id="gpu-value">N/A</strong>
+                                <span>Usage</span>
+                            </div>
+                        </div>
+
+                        <div class="chart" id="gpu-chart"></div>
+
+                    </article>
+
+                    <article class="metric-card blue-card">
+
+                        <div class="card-title">
+                            <span>▣</span>
+                            <h3>RAM</h3>
+                        </div>
+
+                        <div
+                            id="ram-gauge"
+                            class="gauge"
+                            style="--value: 0;"
+                        >
+                            <div class="gauge-center">
+                                <strong id="ram-value">--%</strong>
+                                <span>Usage</span>
+                            </div>
+                        </div>
+
+                        <p class="card-detail" id="ram-detail">
+                            -- GB / -- GB
+                        </p>
+
+                        <div class="chart" id="ram-chart"></div>
+
+                    </article>
+
+                    <article class="metric-card yellow-card">
+
+                        <div class="card-title">
+                            <span>◴</span>
+                            <h3>Session</h3>
+                        </div>
+
+                        <div class="session-value">
+                            <strong id="session-time">00:00:00</strong>
+                            <span>Program uptime</span>
+                        </div>
+
+                        <div class="hydration-reminder">
+                            <span>💧</span>
+
+                            <div>
+                                <strong>Hydration</strong>
+                                <p id="hydration-text">
+                                    Remember to drink water.
+                                </p>
+                            </div>
+                        </div>
+
+                        <button
+                            id="water-button"
+                            class="water-button"
+                        >
+                            I drank water
+                        </button>
+
+                    </article>
+
+                </div>
+
+                <div class="secondary-cards">
+
+                    <article class="information-card">
+
+                        <div class="card-title">
+                            <span>◉</span>
+                            <h3>Network</h3>
+                        </div>
+
+                        <div class="network-grid">
+
+                            <div>
+                                <span class="information-label">
+                                    Downloaded
+                                </span>
+
+                                <strong
+                                    id="download-value"
+                                    class="network-number download"
+                                >
+                                    -- MB
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span class="information-label">
+                                    Uploaded
+                                </span>
+
+                                <strong
+                                    id="upload-value"
+                                    class="network-number upload"
+                                >
+                                    -- MB
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    <article class="information-card storage-card">
+
+                        <div class="card-title">
+                            <span>▤</span>
+                            <h3>Storage</h3>
+                        </div>
+
+                        <div id="storage-list">
+                            <p class="loading-text">
+                                Loading storage information...
+                            </p>
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <article class="system-overview">
+
+                    <div class="card-title">
+                        <span>▣</span>
+                        <h3>System Overview</h3>
+                    </div>
+
+                    <div class="overview-grid">
+
+                        <div class="overview-item">
+                            <span>CPU Usage</span>
+                            <strong id="overview-cpu">--%</strong>
+                        </div>
+
+                        <div class="overview-item">
+                            <span>RAM Usage</span>
+                            <strong id="overview-ram">--%</strong>
+                        </div>
+
+                        <div class="overview-item">
+                            <span>System Health</span>
+                            <strong
+                                id="system-health"
+                                class="healthy"
+                            >
+                                Good
+                            </strong>
+                        </div>
+
+                        <div class="overview-item">
+                            <span>Water Reminder</span>
+                            <strong id="water-status">Active</strong>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+            <aside
+                id="nekorin-panel"
+                class="nekorin-panel"
+            >
+
+                <div class="speech-box">
+                    <p id="nekorin-message">
+                        Everything looks good. Remember to drink water! 💧
+                    </p>
+                </div>
+
+                <div class="nekorin-image-container">
+
+                    <img
+                        id="nekorin-image"
+                        class="nekorin-image"
+                        src="/assets/nekorin/explain.png"
+                        alt="Nekorin"
+                    >
+
+                </div>
+
+            </aside>
+
+        </section>
+
+        <footer>
+            <span>© 2026 NekoMonitor Lite</span>
+            <span>Made with ♡ by Sultan</span>
+            <span>Version 0.1.0</span>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
