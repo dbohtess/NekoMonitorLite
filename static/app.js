@@ -693,8 +693,6 @@ function renderChart(chartElement, historyArray) {
 
 
 /*
-
-*//*
 =========================================================
 SYSTEM API REQUEST
 =========================================================
@@ -1585,6 +1583,7 @@ function evaluateNekorinReaction(
         "explain",
         "Happy"
     );
+}    
 /*
 =========================================================
 NEKORIN REACTION DISPLAY
