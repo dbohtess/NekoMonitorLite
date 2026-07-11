@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
+
+from system import get_system_info
 
 app = Flask(
     __name__,
@@ -10,6 +12,11 @@ app = Flask(
 @app.route("/")
 def home():
     return render_template("index.html")
+
+
+@app.route("/api/system")
+def system_api():
+    return jsonify(get_system_info())
 
 
 if __name__ == "__main__":
