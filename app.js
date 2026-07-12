@@ -288,9 +288,11 @@ const elements = {
     cpuValue: document.getElementById("cpu-value"),
     cpuChart: document.getElementById("cpu-chart"),
 
-    gpuGauge: document.getElementById("gpu-gauge"),
-    gpuValue: document.getElementById("gpu-value"),
-    gpuChart: document.getElementById("gpu-chart"),
+   gpuGauge: document.getElementById("gpu-gauge"),
+gpuValue: document.getElementById("gpu-value"),
+gpuName: document.getElementById("gpu-name"),
+gpuDetail: document.getElementById("gpu-detail"),
+gpuChart: document.getElementById("gpu-chart"),
 
     ramGauge: document.getElementById("ram-gauge"),
     ramValue: document.getElementById("ram-value"),
@@ -838,7 +840,14 @@ function updateSystemDashboard(data) {
 
     updateCpuSection(cpuUsage);
 
-    updateGpuSection(gpuUsage);
+   updateGpuSection(
+    gpuUsage,
+    data.gpu_available,
+    data.gpu_name,
+    data.gpu_temperature,
+    data.gpu_memory_used_gb,
+    data.gpu_memory_total_gb
+);
 
     updateRamSection(
         ramUsage,
@@ -931,17 +940,81 @@ GPU SECTION
 =========================================================
 */
 
-function updateGpuSection(gpuUsage) {
+function updateGpuSection(
+    gpuUsage,
+    gpuAvailable,
+    gpuName,
+    gpuTemperature,
+    gpuMemoryUsedGb,
+    gpuMemoryTotalGb
+) {
+    const gpuIsAvailable =
+        gpuAvailable === true;
+
+    const validGpuUsage =
+        gpuIsAvailable && isFiniteNumber(gpuUsage)
+            ? clampNumber(gpuUsage)
+            : null;
+
     updateGauge(
         elements.gpuGauge,
         elements.gpuValue,
-        gpuUsage,
+        validGpuUsage,
         "N/A"
+    );
+
+    if (!gpuIsAvailable) {
+        setElementText(
+            elements.gpuName,
+            "GPU not available"
+        );
+
+        setElementText(
+            elements.gpuDetail,
+            "NVML data unavailable"
+        );
+
+        addHistoryValue(
+            nekoMonitorState.gpuHistory,
+            null
+        );
+
+        renderChart(
+            elements.gpuChart,
+            nekoMonitorState.gpuHistory
+        );
+
+        return;
+    }
+
+    setElementText(
+        elements.gpuName,
+        safeText(gpuName, "NVIDIA GPU")
+    );
+
+    const temperatureText =
+        isFiniteNumber(gpuTemperature)
+            ? `${Math.round(Number(gpuTemperature))}°C`
+            : "--°C";
+
+    const memoryUsedText =
+        isFiniteNumber(gpuMemoryUsedGb)
+            ? formatGigabytes(gpuMemoryUsedGb)
+            : "-- GB";
+
+    const memoryTotalText =
+        isFiniteNumber(gpuMemoryTotalGb)
+            ? formatGigabytes(gpuMemoryTotalGb)
+            : "-- GB";
+
+    setElementText(
+        elements.gpuDetail,
+        `${temperatureText} • ${memoryUsedText} / ${memoryTotalText} VRAM`
     );
 
     addHistoryValue(
         nekoMonitorState.gpuHistory,
-        gpuUsage
+        validGpuUsage
     );
 
     renderChart(
@@ -967,6 +1040,15 @@ function updateRamSection(
         elements.ramValue,
         ramUsage
     );
+    setElementText(
+    elements.gpuName,
+    "Connection unavailable"
+);
+
+setElementText(
+    elements.gpuDetail,
+    "--°C • -- GB / -- GB VRAM"
+);
 
     const ramText =
         formatPercentage(ramUsage);

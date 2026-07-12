@@ -152,27 +152,21 @@
 
                     <article class="metric-card pink-card">
 
-                        <div class="card-title">
-                            <span>▣</span>
-                            <h3>GPU</h3>
-                        </div>
+                        <div class="gauge-center">
+    <strong id="gpu-value">N/A</strong>
+    <span>Usage</span>
+</div>
+</div>
 
-                        <div
-                            id="gpu-gauge"
-                            class="gauge"
-                            style="--value: 0;"
-                        >
-                            <div class="gauge-center">
-                                <strong id="gpu-value">N/A</strong>
-                                <span>Usage</span>
-                            </div>
-                        </div>
+<p class="card-detail" id="gpu-name">
+    Detecting GPU...
+</p>
 
-                        <div class="chart" id="gpu-chart"></div>
+<p class="card-detail" id="gpu-detail">
+    --°C • -- GB / -- GB VRAM
+</p>
 
-                    </article>
-
-                    <article class="metric-card blue-card">
+<div class="chart" id="gpu-chart"></div>
 
                         <div class="card-title">
                             <span>▣</span>
