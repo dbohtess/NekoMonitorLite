@@ -1,0 +1,35 @@
+name: Build NekoMonitor Lite
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install packages
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build EXE
+        run: |
+          pyinstaller --noconfirm --onefile --windowed ^
+          --name NekoMonitorLite ^
+          --icon assets/icon.ico ^
+          --add-data "templates;templates" ^
+          --add-data "static;static" ^
+          --add-data "assets;assets" ^
+          desktop.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: NekoMonitorLite
+          path: dist/NekoMonitorLite.exe
