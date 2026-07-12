@@ -61,20 +61,14 @@ const NEKO_MONITOR_CONFIG = Object.freeze({
 
     requestTimeoutMs: 6000,
 
-    images: Object.freeze({
-        explain: "/static/explain.png",
-        angry: "/static/angry.png",
-        cry: "/static/cry.png",
-
-        /*
-        These images will be used automatically later
-        when they are added to the static folder.
-        */
-
-        happy: "/static/happy.png",
-        sleep: "/static/sleep.png",
-        thinking: "/static/thinking.png"
-    })
+   images: Object.freeze({
+    explain: "../static/explain.png",
+    angry: "../static/angry.png",
+    cry: "../static/cry.png",
+    happy: "../static/explain.png",
+    sleep: "../static/sleep.png",
+    thinking: "../static/thinking.png"
+})
 });
 
 
