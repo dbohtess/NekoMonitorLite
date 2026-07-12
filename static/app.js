@@ -33,7 +33,7 @@ APPLICATION CONFIGURATION
 */
 
 const NEKO_MONITOR_CONFIG = Object.freeze({
-    apiUrl: "/api/system",
+    apiUrl: "desktop",
 
     systemRefreshIntervalMs: 2000,
     clockRefreshIntervalMs: 1000,
@@ -731,57 +731,51 @@ async function fetchSystemData() {
             "thinking";
     }
 
-    const controller = new AbortController();
-
-    const timeoutId = window.setTimeout(
-        () => controller.abort(),
-        NEKO_MONITOR_CONFIG.requestTimeoutMs
-    );
-
-    try {
-        const response = await fetch(
-            NEKO_MONITOR_CONFIG.apiUrl,
-            {
-                method: "GET",
-                cache: "no-store",
-                headers: {
-                    Accept: "application/json"
-                },
-                signal: controller.signal
+try {
+    if (!window.nekoBackend) {
+        await new Promise((resolve, reject) => {
+            if (!window.qt?.webChannelTransport) {
+                reject(new Error("Qt WebChannel is not available."));
+                return;
             }
-        );
 
-        if (!response.ok) {
-            throw new Error(
-                `System API error: ${response.status}`
+            new QWebChannel(
+                window.qt.webChannelTransport,
+                (channel) => {
+                    window.nekoBackend =
+                        channel.objects.backend;
+
+                    resolve();
+                }
             );
-        }
-
-        const data = await response.json();
-
-        nekoMonitorState.lastSystemData = data;
-
-        nekoMonitorState.lastSuccessfulUpdateAt =
-            Date.now();
-
-        nekoMonitorState.consecutiveRequestErrors = 0;
-
-        setConnectionState(true);
-
-        updateSystemDashboard(data);
-    } catch (error) {
-        nekoMonitorState.consecutiveRequestErrors += 1;
-
-        setConnectionState(false);
-
-        handleSystemRequestError(error);
-    } finally {
-        window.clearTimeout(timeoutId);
-
-        nekoMonitorState.isFetchingSystemData = false;
+        });
     }
-}
 
+    const rawData = await new Promise((resolve) => {
+        window.nekoBackend.getSystemInfo(resolve);
+    });
+
+    const data = JSON.parse(rawData);
+
+    nekoMonitorState.lastSystemData = data;
+
+    nekoMonitorState.lastSuccessfulUpdateAt =
+        Date.now();
+
+    nekoMonitorState.consecutiveRequestErrors = 0;
+
+    setConnectionState(true);
+
+    updateSystemDashboard(data);
+} catch (error) {
+    nekoMonitorState.consecutiveRequestErrors += 1;
+
+    setConnectionState(false);
+
+    handleSystemRequestError(error);
+} finally {
+    nekoMonitorState.isFetchingSystemData = false;
+}
 
 /*
 =========================================================
