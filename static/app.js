@@ -705,6 +705,32 @@ async function fetchSystemData() {
 
     nekoMonitorState.isFetchingSystemData = true;
 
+    const isFirstSystemLoad =
+        nekoMonitorState.lastSystemData === null;
+
+    if (
+        isFirstSystemLoad &&
+        nekoMonitorState.nekorinModeEnabled
+    ) {
+        setElementText(
+            elements.nekorinMessage,
+            "I am checking your computer, Sultan..."
+        );
+
+        setElementText(
+            elements.nekorinStatus,
+            "Analyzing"
+        );
+
+        setNekorinImage("thinking");
+
+        nekoMonitorState.currentNekorinMood =
+            "thinking";
+
+        nekoMonitorState.currentNekorinMessageType =
+            "thinking";
+    }
+
     const controller = new AbortController();
 
     const timeoutId = window.setTimeout(
@@ -734,6 +760,7 @@ async function fetchSystemData() {
         const data = await response.json();
 
         nekoMonitorState.lastSystemData = data;
+
         nekoMonitorState.lastSuccessfulUpdateAt =
             Date.now();
 
