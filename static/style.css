@@ -706,3 +706,169 @@ footer {
         flex-direction: column;
     }
 }
+/*
+=========================================================
+NEKORIN PANEL - PHASE 1 FIX
+=========================================================
+*/
+
+.nekorin-panel {
+    position: sticky;
+    top: 28px;
+
+    align-self: start;
+
+    height: calc(100vh - 56px);
+    min-height: 560px;
+    max-height: 760px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/*
+=========================================================
+NEKORIN SPEECH BOX
+=========================================================
+*/
+
+.speech-box {
+    flex: 0 0 auto;
+
+    margin: 0;
+
+    padding: 14px;
+
+    position: relative;
+    z-index: 3;
+}
+
+
+.speech-box p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/*
+=========================================================
+NEKORIN IMAGE AREA
+=========================================================
+*/
+
+.nekorin-image-container {
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding-top: 4px;
+}
+
+
+/*
+=========================================================
+NEKORIN IMAGE
+=========================================================
+*/
+
+.nekorin-image {
+    width: 118%;
+    height: 100%;
+    max-height: none;
+
+    display: block;
+
+    object-fit: contain;
+    object-position: center top;
+
+    transform: translateY(-6px);
+
+    filter:
+        drop-shadow(
+            0 0 28px rgba(156, 96, 255, 0.23)
+        );
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/*
+=========================================================
+DESKTOP WINDOW RESPONSIVE FIX
+=========================================================
+*/
+
+@media (max-width: 1280px) {
+    .nekorin-panel {
+        position: relative;
+        top: auto;
+
+        width: 100%;
+        height: 520px;
+        min-height: 520px;
+        max-height: 520px;
+    }
+
+    .nekorin-image {
+        width: 82%;
+        height: 100%;
+
+        object-position: center top;
+
+        transform: translateY(-4px);
+    }
+}
+
+
+/*
+=========================================================
+SMALL SCREEN FIX
+=========================================================
+*/
+
+@media (max-width: 900px) {
+    .nekorin-panel {
+        position: relative;
+        top: auto;
+
+        height: 500px;
+        min-height: 500px;
+        max-height: 500px;
+    }
+
+    .nekorin-image {
+        width: 90%;
+    }
+}
+
+
+/*
+=========================================================
+MOBILE FIX
+=========================================================
+*/
+
+@media (max-width: 620px) {
+    .nekorin-panel {
+        height: 440px;
+        min-height: 440px;
+        max-height: 440px;
+    }
+
+    .nekorin-image {
+        width: 105%;
+    }
+}
