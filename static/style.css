@@ -57,14 +57,22 @@ button {
 }
 
 .brand-icon {
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    border-radius: 13px;
-    background: linear-gradient(145deg, #8e5cff, #be6cff);
-    box-shadow: 0 0 24px rgba(153, 92, 255, 0.34);
-    font-size: 20px;
+    width: 67px;
+    height: 67px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.brand-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .brand h2 {
