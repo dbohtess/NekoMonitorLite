@@ -1040,15 +1040,7 @@ function updateRamSection(
         elements.ramValue,
         ramUsage
     );
-    setElementText(
-    elements.gpuName,
-    "Connection unavailable"
-);
-
-setElementText(
-    elements.gpuDetail,
-    "--°C • -- GB / -- GB VRAM"
-);
+   
 
     const ramText =
         formatPercentage(ramUsage);
@@ -1311,6 +1303,16 @@ function setUnavailableSystemValues() {
         elements.cpuValue,
         null
     );
+
+    setElementText(
+    elements.gpuName,
+    "Connection unavailable"
+);
+
+setElementText(
+    elements.gpuDetail,
+    "--°C • -- GB / -- GB VRAM"
+);
 
     updateGauge(
         elements.gpuGauge,

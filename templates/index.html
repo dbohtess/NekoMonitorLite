@@ -152,45 +152,59 @@
 
                     <article class="metric-card pink-card">
 
-                        <div class="gauge-center">
-    <strong id="gpu-value">N/A</strong>
-    <span>Usage</span>
-</div>
-</div>
+    <div class="card-title">
+        <span>▣</span>
+        <h3>GPU</h3>
+    </div>
 
-<p class="card-detail" id="gpu-name">
-    Detecting GPU...
-</p>
+    <div
+        id="gpu-gauge"
+        class="gauge"
+        style="--value: 0;"
+    >
+        <div class="gauge-center">
+            <strong id="gpu-value">N/A</strong>
+            <span>Usage</span>
+        </div>
+    </div>
 
-<p class="card-detail" id="gpu-detail">
-    --°C • -- GB / -- GB VRAM
-</p>
+    <p class="card-detail" id="gpu-name">
+        Detecting GPU...
+    </p>
 
-<div class="chart" id="gpu-chart"></div>
+    <p class="card-detail" id="gpu-detail">
+        --°C • -- GB / -- GB VRAM
+    </p>
 
-                        <div class="card-title">
-                            <span>▣</span>
-                            <h3>RAM</h3>
-                        </div>
+    <div class="chart" id="gpu-chart"></div>
 
-                        <div
-                            id="ram-gauge"
-                            class="gauge"
-                            style="--value: 0;"
-                        >
-                            <div class="gauge-center">
-                                <strong id="ram-value">--%</strong>
-                                <span>Usage</span>
-                            </div>
-                        </div>
+</article>
 
-                        <p class="card-detail" id="ram-detail">
-                            -- GB / -- GB
-                        </p>
+<article class="metric-card blue-card">
 
-                        <div class="chart" id="ram-chart"></div>
+    <div class="card-title">
+        <span>▣</span>
+        <h3>RAM</h3>
+    </div>
 
-                    </article>
+    <div
+        id="ram-gauge"
+        class="gauge"
+        style="--value: 0;"
+    >
+        <div class="gauge-center">
+            <strong id="ram-value">--%</strong>
+            <span>Usage</span>
+        </div>
+    </div>
+
+    <p class="card-detail" id="ram-detail">
+        -- GB / -- GB
+    </p>
+
+    <div class="chart" id="ram-chart"></div>
+
+</article>
 
                     <article class="metric-card yellow-card">
 
