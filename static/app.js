@@ -776,6 +776,7 @@ try {
 } finally {
     nekoMonitorState.isFetchingSystemData = false;
 }
+}
 
 /*
 =========================================================

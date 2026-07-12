@@ -709,6 +709,7 @@ async function fetchSystemData() {
 
     nekoMonitorState.isFetchingSystemData = true;
 
+          
     const controller = new AbortController();
 
     const timeoutId = window.setTimeout(
@@ -2379,6 +2380,7 @@ if (document.readyState === "loading") {
     );
 } else {
     initializeNekoMonitor();
+}
 }
 
 
