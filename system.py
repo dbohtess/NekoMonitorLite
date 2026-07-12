@@ -50,6 +50,9 @@ def should_hide_disk(disk):
     mountpoint = (disk.mountpoint or "").lower()
     filesystem = (disk.fstype or "").lower()
 
+    if os.name == "nt":
+        return False
+
     if device.startswith("/dev/loop"):
         return True
 
@@ -63,9 +66,17 @@ def should_hide_disk(disk):
         "/dev",
         "/run",
         "/snap",
+        "/tmp",
+        "/vscode",
+        "/usr/sbin/docker-init",
+        "/.codespaces",
+        "/workspaces/.codespaces",
     )
 
     if mountpoint.startswith(hidden_mountpoints):
+        return True
+
+    if mountpoint != "/":
         return True
 
     return False
